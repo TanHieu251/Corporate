@@ -1,0 +1,42 @@
+::ng-deep {
+    .layout {
+        position: relative;
+
+
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 5;
+
+            .app-header {
+                .nav-header {
+                    background-color: red($color: #000000);
+                    transition: background-color 13s ease-in-out;
+
+
+                }
+
+            }
+        }
+
+        .scrolled {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 5;
+
+            .app-header {
+                .nav-header {
+                    background-color: blue($color: blue);
+                    transition: background-color 13s ease-in-out;
+
+
+                }
+
+            }
+        }
+    }
+}

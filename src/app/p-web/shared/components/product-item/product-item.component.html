@@ -1,0 +1,17 @@
+<!-- <div class="w-full md:w-3/4 px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"> -->
+<div class="bg-white rounded-lg shadow overflow-hidden group hover:shadow-xl transition-all duration-300">
+    <img [src]="product.image" [alt]="product.name"
+        class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500">
+    <div class="p-4">
+        <h3 class="text-lg font-semibold mb-2">{{product.name}}</h3>
+        <p class="text-gray-600 text-sm mb-2">{{product.description}}</p>
+        <div class="flex justify-between items-center">
+            <span class="text-blue-600 font-bold">{{product.price | currency:'VND':'symbol':'1.0-0'}}</span>
+            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Chi tiết
+            </button>
+        </div>
+    </div>
+    <!-- </div>
+    </div> -->
