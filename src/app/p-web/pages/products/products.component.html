@@ -1,148 +1,107 @@
-<!-- Banner Section -->
-<div class="relative bg-blue-700 h-[40vh]">
-    <div class="absolute inset-0">
-        <img src="https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg"
-            alt="Banner" class="w-full h-full object-cover opacity-20">
+<div>
+  <!-- Hero Section -->
+  <section class="container mt-5 mx-auto   relative">
+    <div class="absolute rounded-3xl inset-0">
+      <img
+        src="https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630"
+        alt="Hero Background" class="rounded-3xl w-full h-full object-cover " />
+      <div class="absolute rounded-3xl inset-0 bg-black/30"></div>
     </div>
-    <div class="relative container mx-auto px-4 h-full flex flex-col justify-center">
-        <h1 class="text-4xl font-bold text-white mb-4">Sản Phẩm Điện Công Nghiệp</h1>
-        <div class="max-w-2xl">
-            <div class="relative">
-                <input type="text" placeholder="Tìm kiếm sản phẩm..." class="w-full px-4 py-3 rounded-lg pl-12">
-                <svg class="w-6 h-6 text-gray-400 absolute left-3 top-3" fill="none" stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-            </div>
-        </div>
+    <div class="container relative mx-auto py-16 md:py-24 px-4">
+
+      <div class="mx-auto max-w-3xl text-center">
+        <h1 class="mb-4 text-4xl text-white font-bold tracking-tight md:text-5xl">
+          Sản phẩm <span class="text-orange-600">của chúng tôi</span>
+        </h1>
+        <p class="mb-8 text-lg text-gray-200">
+          Duyệt qua danh mục sản phẩm điện tử chất lượng cao của chúng tôi cho các ứng dụng công nghiệp
+        </p>
+
+      </div>
     </div>
-</div>
+  </section>
 
-<div class="container mx-auto px-4 py-8">
-    <div class="flex flex-wrap -mx-4">
-        <!-- Bộ lọc bên trái -->
-        <div class="w-full md:w-1/4 px-4">
-            <div class="bg-white rounded-lg shadow p-6">
-                <h3 class="text-lg font-bold mb-4">Bộ Lọc Sản Phẩm</h3>
 
-                <div class="mb-4">
-                    <h4 class="font-medium mb-2">Danh Mục</h4>
-                    <div class="space-y-2">
-                        <label class="flex items-center">
-                            <input type="checkbox" class="form-checkbox">
-                            <span class="ml-2">Thiết bị đóng cắt</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="form-checkbox">
-                            <span class="ml-2">Tủ điện công nghiệp</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="form-checkbox">
-                            <span class="ml-2">Cáp điện</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="form-checkbox">
-                            <span class="ml-2">Thiết bị đo lường</span>
-                        </label>
-                    </div>
-                </div>
+  <!-- Products Section -->
+  <section class="py-16 md:py-24">
 
-                <div class="mb-4">
-                    <h4 class="font-medium mb-2">Thương Hiệu</h4>
-                    <div class="space-y-2">
-                        <label class="flex items-center">
-                            <input type="checkbox" class="form-checkbox">
-                            <span class="ml-2">Schneider</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="form-checkbox">
-                            <span class="ml-2">ABB</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="form-checkbox">
-                            <span class="ml-2">Siemens</span>
-                        </label>
-                    </div>
-                </div>
+    <div class="container mx-auto px-4">
 
-                <div>
-                    <h4 class="font-medium mb-2">Khoảng Giá</h4>
-                    <div class="space-y-2">
-                        <label class="flex items-center">
-                            <input type="radio" name="price" class="form-radio">
-                            <span class="ml-2">Dưới 1 triệu</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="radio" name="price" class="form-radio">
-                            <span class="ml-2">1 - 5 triệu</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="radio" name="price" class="form-radio">
-                            <span class="ml-2">5 - 10 triệu</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="radio" name="price" class="form-radio">
-                            <span class="ml-2">Trên 10 triệu</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
+
+
+      <!-- Products Grid -->
+      <div class="">
+
+        <div class="mb-6 w-3/4 flex ml-auto flex-col sm:flex-row justify-end gap-8  sm:items-center">
+          <div class="flex items-center flex-1 ">
+            <p-inputgroup>
+              <p-inputgroup-addon>
+                <i class="pi pi-search"></i>
+              </p-inputgroup-addon>
+              <input pInputText [(ngModel)]="searchTerm" (input)="onSearchChange($event)" placeholder="Tìm sản phẩm" />
+            </p-inputgroup>
+          </div>
+
+          <div class="flex items-center">
+            <p-select [options]="sortPrice" [(ngModel)]="sortBy" (onChange)="onSortChange($event)"
+              placeholder="Chọn phương thức sắp xếp" class="w-full md:w-56" />
+
+          </div>
         </div>
 
-        <!-- Danh sách sản phẩm bên phải -->
-        <div class="w-full md:w-3/4 px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                @for (item of products; track $index) {
-                <app-product-item [product]="item"></app-product-item>
-                }
-                <!-- <div *ngFor="let product of products" class="bg-white rounded-lg shadow overflow-hidden">
-                    <img [src]="product.image" [alt]="product.name" class="w-full h-48 object-cover">
-                    <div class="p-4">
-                        <h3 class="text-lg font-semibold mb-2">{{product.name}}</h3>
-                        <p class="text-gray-600 text-sm mb-2">{{product.description}}</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-blue-600 font-bold">{{product.price |
-                                currency:'VND':'symbol':'1.0-0'}}</span>
-                            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                                Chi tiết
-                            </button>
-                        </div>
-                    </div>
-                </div> -->
+
+        <div class="flex items-start gap-8">
+          <div class="w-1/4  flex flex-col gap-2 list-filter">
+
+            <p-accordion value="0" class="w-80">
+              <p-accordion-panel value="0">
+                <p-accordion-header>Danh Mục Sản Phẩm</p-accordion-header>
+                <p-accordion-content>
+                  <p-listbox (onChange)="onDropdownChange($event)" [(ngModel)]="selectedCategory" [options]="categories"
+                    [multiple]="true" [checkbox]="true" optionLabel="name" class="w-full md:w-56" />
+
+                </p-accordion-content>
+              </p-accordion-panel>
+            </p-accordion>
+
+            <div class="flex items-center">
+              <p-checkbox [binary]="true" value="Giá Tiền" [(ngModel)]="isRangePrice" />
+              <label for="ingredient1" class="ml-2"> Giá Tiền </label>
             </div>
 
-            <!-- Pagination -->
-            <div class="mt-8 flex justify-center">
-                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                    <a href="#"
-                        class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                        <span class="sr-only">Previous</span>
-                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                            aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </a>
-                    <a href="#"
-                        class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">1</a>
-                    <a href="#"
-                        class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">2</a>
-                    <a href="#"
-                        class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">3</a>
-                    <a href="#"
-                        class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                        <span class="sr-only">Next</span>
-                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                            aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </a>
-                </nav>
+
+            <div class="flex justify-between items-center w-80 mb-4" id="label_number">
+              <span>{{ rangePrice[0] |number:'1.0-0' }}</span> <span>{{ rangePrice[1] |number:'1.0-0' }}</span>
             </div>
+
+            <p-slider (onchange)="onRangeChange($event)" [max]="10000000" ariaLabelledBy="label_number"
+              [(ngModel)]="rangePrice" [range]="true" class="w-80 block" ariaLabel="Number"
+              [disabled]="!isRangePrice" />
+
+
+            <button p-button
+              class=" rounded-md w-80 border border-gray-300 bg-white px-4 py-2 mt-4  text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+              (click)="resetFilters()">
+              Reset Filters
+            </button>
+          </div>
+
+          <div *ngIf="filteredProducts.length > 0" class="w-3/4 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+
+            <app-product-item *ngFor="let product of filteredProducts" [product]="product"></app-product-item>
+          </div>
         </div>
+
+
+        <div *ngIf="filteredProducts.length === 0" class="rounded-lg border border-dashed p-8 text-center">
+          <h3 class="mb-2 text-xl font-semibold">No products found</h3>
+          <p class="text-gray-600">Try adjusting your search or filter criteria</p>
+        </div>
+      </div>
     </div>
+  </section>
+
+
+
+
 </div>

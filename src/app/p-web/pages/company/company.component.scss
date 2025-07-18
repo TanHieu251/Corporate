@@ -1,0 +1,201 @@
+:host ::ng-deep {
+    .banner {
+        .p-button {
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.2));
+            outline: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 30px;
+            padding: 0.8rem 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(5px);
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.95);
+                color: #1a365d;
+                transform: translateY(-3px) scale(1.02);
+                outline: none;
+            }
+
+            .p-button-label {
+                font-weight: 700;
+                letter-spacing: 0.5px;
+                text-transform: uppercase;
+                font-size: 0.95rem;
+            }
+
+            .p-button-icon {
+                font-size: 1.2rem;
+                margin-right: 0.5rem;
+                vertical-align: middle;
+            }
+        }
+
+    }
+
+    .about {
+        padding-top: 100px;
+
+        .p-card {
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+
+            &:hover {
+                transform: translateY(-5px);
+            }
+
+            .p-card-content {
+                padding: 1.5rem;
+            }
+
+            .pi {
+                font-size: 1.5rem;
+            }
+        }
+
+        .p-image {
+            img {
+                border-radius: 12px;
+                transition: transform 0.3s ease;
+
+                &:hover {
+                    transform: scale(1.02);
+                }
+            }
+        }
+    }
+
+    .values,
+    .team {
+        .p-carousel {
+            .p-carousel-prev-button {
+                display: none;
+            }
+
+            .p-carousel-next-button {
+                display: none;
+            }
+        }
+    }
+
+    .contact {
+        .p-button {
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+
+            &.p-button-rounded {
+                border-radius: 25px;
+            }
+
+            &.p-button-secondary {
+                background: #ffffff;
+                color: #3B82F6;
+                border: none;
+
+                &:hover {
+                    background: #f8f9fa;
+                    transform: translateY(-2px);
+                }
+            }
+
+            &.p-button-outlined {
+                background: transparent;
+                color: #ffffff;
+                border: 2px solid #ffffff;
+
+                &:hover {
+                    background: rgba(255, 255, 255, 0.1);
+                    transform: translateY(-2px);
+                }
+            }
+
+            .p-button-icon {
+                margin-right: 0.5rem;
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        .banner {
+            padding: 4rem 0;
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+        }
+
+        .about {
+            .p-card {
+                margin-bottom: 1rem;
+            }
+
+            .p-image {
+                width: 100% !important;
+            }
+
+            .absolute {
+                position: static;
+                margin-top: 1rem;
+                width: 100%;
+                text-align: center;
+            }
+
+            .about {
+
+
+                .values {
+                    .p-carousel {
+                        .p-carousel-item {
+                            padding: 0.5rem;
+                        }
+                    }
+                }
+
+                .team {
+                    .p-carousel {
+                        .p-carousel-item {
+                            padding: 0.5rem;
+                        }
+                    }
+                }
+
+                .contact {
+                    padding: 2rem 0;
+
+                    h2 {
+                        font-size: 1.8rem;
+                    }
+
+                    p {
+                        font-size: 1rem;
+                    }
+
+                    .p-button {
+                        width: 100%;
+                        margin: 0.5rem 0;
+                    }
+                }
+            }
+
+            @media (max-width: 480px) {
+                .banner {
+                    h1 {
+                        font-size: 2rem;
+                    }
+                }
+
+                .about {
+                    .grid {
+                        grid-template-columns: 1fr;
+                    }
+                }
+            }
+        }
+    }
+}

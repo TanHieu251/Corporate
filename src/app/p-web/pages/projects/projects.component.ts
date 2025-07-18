@@ -1,4 +1,15 @@
 import { Component } from '@angular/core';
+interface Project {
+  id: number;
+  title: string;
+  category: number;
+  categoryName: string;
+  location: string;
+  date: string;
+  image: string;
+  description: string;
+  featured: boolean;
+}
 
 @Component({
   selector: 'app-projects',
@@ -8,250 +19,203 @@ import { Component } from '@angular/core';
   styleUrl: './projects.component.scss',
 })
 export class ProjectsComponent {
-  projects = [
+  activeCategory = 'all';
+
+  // Sample project data
+  projects: Project[] = [
     {
       id: 1,
-      name: 'Nhà máy sản xuất ô tô VinFast',
-      description:
-        'Lắp đặt hệ thống điện công nghiệp cho dây chuyền sản xuất ô tô tự động',
+      title: 'Factory Automation System',
+      category: 1,
+      categoryName: 'Automation',
+      location: 'Ho Chi Minh City, Vietnam',
+      date: 'January 2023',
       image:
-        'https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg',
-      capacity: '100MW',
-
-      location: 'Hải Phòng',
-      status: 'Hoàn thành',
-      statusClass: 'bg-green-100 text-green-800',
+        'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png',
+      description:
+        'Complete automation system implementation for a manufacturing facility, improving efficiency by 35%.',
+      featured: true,
     },
     {
       id: 2,
-      name: 'Khu công nghiệp Long Thành',
-      description:
-        'Thiết kế và thi công hệ thống điện cho 50 nhà xưởng công nghiệp',
+      title: 'Industrial Power Distribution',
+      category: 1,
+      categoryName: 'Automation',
+      location: 'Hanoi, Vietnam',
+      date: 'March 2023',
       image:
-        'https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg',
-      capacity: '100MW',
-
-      location: 'Đồng Nai',
-      status: 'Đang thực hiện',
-      statusClass: 'bg-blue-100 text-blue-800',
+        'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png',
+      description:
+        'Design and installation of a comprehensive power distribution system for a large industrial complex.',
+      featured: true,
     },
     {
       id: 3,
-      name: 'Nhà máy Samsung Electronics',
-      description: 'Nâng cấp hệ thống điện và lắp đặt trạm biến áp 110kV',
+      title: 'Control System Upgrade',
+      category: 1,
+      categoryName: 'Automation',
+      location: 'Da Nang, Vietnam',
+      date: 'May 2023',
       image:
-        'https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg',
-      capacity: '100MW',
-
-      location: 'Thái Nguyên',
-      status: 'Hoàn thành',
-      statusClass: 'bg-green-100 text-green-800',
+        'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png',
+      description:
+        'Modernization of an outdated control system for a production line, reducing downtime by 40%.',
+      featured: true,
     },
     {
       id: 4,
-      name: 'Nhà máy nhiệt điện Vĩnh Tân',
-      description: 'Bảo trì và nâng cấp hệ thống điều khiển tự động',
+      title: 'Warehouse Lighting Retrofit',
+      category: 1,
+      categoryName: 'Automation',
+      location: 'Binh Duong, Vietnam',
+      date: 'February 2023',
       image:
-        'https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg',
-      capacity: '100MW',
-
-      location: 'Bình Thuận',
-      status: 'Đang thực hiện',
-      statusClass: 'bg-blue-100 text-blue-800',
+        'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png',
+      description:
+        'Energy-efficient LED lighting upgrade for a 50,000 sq ft warehouse, reducing energy consumption by 60%.',
+      featured: false,
     },
     {
       id: 5,
-      name: 'Nhà máy thép Hòa Phát',
-      description: 'Lắp đặt hệ thống điện cho dây chuyền cán thép mới',
+      title: 'Emergency Power System',
+      category: 1,
+      categoryName: 'Automation',
+      location: 'Can Tho, Vietnam',
+      date: 'April 2023',
       image:
-        'https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg',
-      capacity: '100MW',
-
-      location: 'Hưng Yên',
-      status: 'Sắp bắt đầu',
-      statusClass: 'bg-yellow-100 text-yellow-800',
+        'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png',
+      description:
+        'Installation of a backup power system for a critical manufacturing facility to ensure continuous operation.',
+      featured: false,
     },
     {
       id: 6,
-      name: 'Khu chế xuất Tân Thuận',
-      description: 'Cải tạo và nâng cấp hệ thống điện cho 30 nhà xưởng',
+      title: 'Industrial Network Infrastructure',
+      category: 1,
+      categoryName: 'Automation',
+      location: 'Hai Phong, Vietnam',
+      date: 'June 2023',
       image:
-        'https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg',
-      capacity: '100MW',
-
-      location: 'TP.HCM',
-      status: 'Hoàn thành',
-      statusClass: 'bg-green-100 text-green-800',
+        'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png',
+      description:
+        'Design and implementation of a robust industrial network infrastructure for a smart factory.',
+      featured: false,
     },
     {
       id: 7,
-      name: 'Nhà máy bia Heineken',
-      description: 'Lắp đặt hệ thống điện cho dây chuyền đóng chai tự động',
+      title: 'SCADA System Implementation',
+      category: 1,
+      categoryName: 'Automation',
+      location: 'Vung Tau, Vietnam',
+      date: 'July 2023',
       image:
-        'https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg',
-      capacity: '100MW',
-
-      location: 'Đà Nẵng',
-      status: 'Đang thực hiện',
-      statusClass: 'bg-blue-100 text-blue-800',
+        'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png',
+      description:
+        'Implementation of a SCADA system for real-time monitoring and control of industrial processes.',
+      featured: false,
     },
     {
       id: 8,
-      name: 'Nhà máy dệt may Việt Tiến',
-      description: 'Thiết kế và thi công hệ thống điện cho xưởng may mới',
+      title: 'Energy Management System',
+      category: 1,
+      categoryName: 'Automation',
+      location: 'Nha Trang, Vietnam',
+      date: 'August 2023',
       image:
-        'https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg',
-      capacity: '100MW',
-
-      location: 'TP.HCM',
-      status: 'Sắp bắt đầu',
-      statusClass: 'bg-yellow-100 text-yellow-800',
+        'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png',
+      description:
+        'Installation of an energy management system to optimize energy consumption in a manufacturing plant.',
+      featured: false,
     },
     {
       id: 9,
-      name: 'Khu công nghiệp VSIP',
-      description: 'Xây dựng trạm biến áp và hệ thống phân phối điện',
+      title: 'Motor Control Center Upgrade',
+      category: 1,
+      categoryName: 'Automation',
+      location: 'Phu Quoc, Vietnam',
+      date: 'September 2023',
       image:
-        'https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg',
-      capacity: '100MW',
-
-      location: 'Bắc Ninh',
-      status: 'Hoàn thành',
-      statusClass: 'bg-green-100 text-green-800',
-    },
-    {
-      id: 10,
-      name: 'Nhà máy sữa Vinamilk',
-      description: 'Nâng cấp hệ thống điện và tự động hóa quy trình sản xuất',
-      image:
-        'https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg',
-      capacity: '100MW',
-
-      location: 'Bình Dương',
-      status: 'Đang thực hiện',
-      statusClass: 'bg-blue-100 text-blue-800',
-    },
-    {
-      id: 11,
-      name: 'Nhà máy xi măng Holcim',
-      description: 'Bảo trì và nâng cấp hệ thống điện cho dây chuyền nghiền',
-      image:
-        'https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg',
-      capacity: '100MW',
-
-      location: 'Khánh Hòa',
-      status: 'Hoàn thành',
-      statusClass: 'bg-green-100 text-green-800',
-    },
-    {
-      id: 12,
-      name: 'Khu công nghệ cao Hòa Lạc',
-      description: 'Thiết kế và thi công hệ thống điện cho tòa nhà R&D',
-      image:
-        'https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg',
-      capacity: '100MW',
-
-      location: 'Hà Nội',
-      status: 'Sắp bắt đầu',
-      statusClass: 'bg-yellow-100 text-yellow-800',
-    },
-    {
-      id: 13,
-      name: 'Nhà máy lọc dầu Nghi Sơn',
-      description: 'Bảo trì hệ thống điện và thiết bị đo lường tự động',
-      image:
-        'https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg',
-      capacity: '100MW',
-
-      location: 'Thanh Hóa',
-      status: 'Đang thực hiện',
-      statusClass: 'bg-blue-100 text-blue-800',
-    },
-    {
-      id: 14,
-      name: 'Nhà máy thủy điện Sơn La',
-      description: 'Nâng cấp hệ thống điều khiển và bảo vệ rơle',
-      image:
-        'https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg',
-      capacity: '100MW',
-
-      location: 'Sơn La',
-      status: 'Hoàn thành',
-      statusClass: 'bg-green-100 text-green-800',
-    },
-    {
-      id: 15,
-      name: 'Khu công nghiệp Phú Mỹ',
-      description: 'Xây dựng hệ thống điện cho 20 nhà xưởng mới',
-      image:
-        'https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg',
-      capacity: '100MW',
-
-      location: 'Bà Rịa - Vũng Tàu',
-      status: 'Sắp bắt đầu',
-      statusClass: 'bg-yellow-100 text-yellow-800',
-    },
-    {
-      id: 16,
-      name: 'Nhà máy giấy Bãi Bằng',
+        'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png',
       description:
-        'Cải tạo hệ thống điện và lắp đặt thiết bị tiết kiệm năng lượng',
-      image:
-        'https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg',
-      capacity: '100MW',
-
-      location: 'Phú Thọ',
-      status: 'Đang thực hiện',
-      statusClass: 'bg-blue-100 text-blue-800',
-    },
-    {
-      id: 17,
-      name: 'Nhà máy chế biến thủy sản Minh Phú',
-      description: 'Lắp đặt hệ thống điện cho kho lạnh và dây chuyền chế biến',
-      image:
-        'https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg',
-      capacity: '100MW',
-
-      location: 'Cà Mau',
-      status: 'Hoàn thành',
-      statusClass: 'bg-green-100 text-green-800',
-    },
-    {
-      id: 18,
-      name: 'Khu công nghiệp Nam Cầu Kiền',
-      description: 'Thiết kế và thi công hệ thống chiếu sáng công nghiệp',
-      image:
-        'https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg',
-      capacity: '100MW',
-
-      location: 'Hải Phòng',
-      status: 'Sắp bắt đầu',
-      statusClass: 'bg-yellow-100 text-yellow-800',
-    },
-    {
-      id: 19,
-      name: 'Nhà máy sản xuất linh kiện Canon',
-      description: 'Nâng cấp hệ thống điện cho dây chuyền sản xuất mới',
-      image:
-        'https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg',
-      capacity: '100MW',
-
-      location: 'Bắc Ninh',
-      status: 'Đang thực hiện',
-      statusClass: 'bg-blue-100 text-blue-800',
-    },
-    {
-      id: 20,
-      name: 'Nhà máy dược phẩm Traphaco',
-      description:
-        'Lắp đặt hệ thống điện cho phòng sạch và khu vực sản xuất GMP',
-      image:
-        'https://www.insideadvisorpro.com/wp-content/uploads/2022/10/IAP_Blog_IndustrialElectricalWork_The-Growing-Demand-for-Industrial-Electricians.jpg',
-      capacity: '100MW',
-
-      location: 'Hưng Yên',
-      status: 'Hoàn thành',
-      statusClass: 'bg-green-100 text-green-800',
+        'Upgrade of a motor control center with advanced VFDs and smart controls for improved performance.',
+      featured: false,
     },
   ];
+
+  // Categories for filtering
+  categories = [
+    'All',
+    'Automation',
+    'Power Systems',
+    'Control Systems',
+    'Lighting',
+    'Networking',
+    'Energy Efficiency',
+  ];
+
+  // Testimonials data
+  testimonials = [
+    {
+      quote:
+        "The automation system implemented by ElectroPro has transformed our manufacturing process. Their team's expertise and professionalism were evident throughout the project.",
+      author: 'Nguyen Van Minh',
+      position: 'Production Manager, ABC Manufacturing',
+    },
+    {
+      quote:
+        'ElectroPro delivered our power distribution project on time and within budget. Their attention to detail and focus on safety were impressive. We highly recommend their services.',
+      author: 'Tran Thi Lan',
+      position: 'Facility Manager, XYZ Industries',
+    },
+    {
+      quote:
+        'The control system upgrade by ElectroPro has significantly improved our production efficiency. Their team was knowledgeable, responsive, and a pleasure to work with.',
+      author: 'Le Thanh Hai',
+      position: 'Chief Engineer, DEF Corporation',
+    },
+  ];
+
+  // Process steps
+  processSteps = [
+    {
+      step: 1,
+      title: 'Initial Consultation',
+      description:
+        'We begin by understanding your requirements, challenges, and objectives through detailed discussions.',
+    },
+    {
+      step: 2,
+      title: 'Design & Planning',
+      description:
+        'Our engineers develop detailed designs and project plans, including timelines and resource allocation.',
+    },
+    {
+      step: 3,
+      title: 'Implementation',
+      description:
+        'Our skilled technicians execute the project according to the approved design, with regular progress updates.',
+    },
+    {
+      step: 4,
+      title: 'Testing & Handover',
+      description:
+        'We conduct thorough testing and provide comprehensive documentation and training before final handover.',
+    },
+  ];
+
+  setActiveCategory(category: string): void {
+    this.activeCategory = category.toLowerCase().replace(' ', '-');
+  }
+
+  getFilteredProjects(): Project[] {
+    if (this.activeCategory === 'all') {
+      return this.projects;
+    } else {
+      const categoryName = this.activeCategory.replace('-', ' ');
+      return this.projects.filter(
+        (project) =>
+          project.categoryName.toLowerCase() === categoryName.toLowerCase()
+      );
+    }
+  }
 }

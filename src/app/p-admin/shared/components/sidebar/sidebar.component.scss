@@ -1,0 +1,142 @@
+::ng-deep {
+    .sidebar-container {
+        height: 100vh;
+        width: 280px;
+        background: linear-gradient(180deg, #1a1f2e 0%, #2c3e50 100%);
+        display: flex;
+        flex-direction: column;
+        color: white;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+        position: relative;
+        z-index: 1000;
+    }
+
+    .logo-section {
+        padding: 1rem 1.5rem;
+        position: relative;
+        overflow: hidden;
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            position: relative;
+            z-index: 1;
+
+            .logo-text {
+                h2 {
+                    font-size: 1.8rem;
+                    font-weight: 800;
+                    color: white;
+                    margin: 0;
+                    letter-spacing: 1px;
+                    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                }
+
+                span {
+                    font-size: 0.85rem;
+                    color: rgba(255, 255, 255, 0.8);
+                    letter-spacing: 0.5px;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+
+    // Menu Section
+    .menu-section {
+        flex: 1;
+        overflow-y: auto;
+
+        .p-panelmenu {
+            .p-panelmenu-panel {
+                border: none;
+
+                .p-panelmenu-header-link {
+                    padding: 1.1rem 1.5rem;
+                    transition: all 0.3s ease;
+                    margin: 0.3rem 0;
+                    border-radius: 8px;
+                    gap: 1rem;
+                    font-weight: 600;
+                    border: none;
+                    font-size: 1.1rem;
+                    &:hover {
+                        background-color: white;
+                        color: black;
+                        transform: translateX(5px);
+                        font-weight: 700;
+
+                    }
+                }
+
+            }
+
+        }
+    }
+
+    // User Section
+    .user-section {
+        padding: 1rem 1.5rem;
+        background: rgba(0, 0, 0, 0.25);
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(10px);
+
+        .user-details {
+
+            h3 {
+                font-size: 1rem;
+                font-weight: 600;
+                margin: 0;
+                color: white;
+                letter-spacing: 0.3px;
+            }
+
+            p {
+                font-size: 0.85rem;
+                color: rgba(255, 255, 255, 0.7);
+                margin: 0;
+                letter-spacing: 0.3px;
+            }
+        }
+
+        .user-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+
+            ::ng-deep {
+                .p-button {
+                    color: rgba(255, 255, 255, 0.8);
+                    transition: all 0.3s ease;
+                    width: 40px;
+                    height: 40px;
+
+                    &:hover {
+                        color: #3498db;
+                        background: rgba(255, 255, 255, 0.08);
+                        transform: translateY(-3px);
+                    }
+                }
+            }
+        }
+    }
+
+    // Scrollbar Styling
+    .menu-section::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .menu-section::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .menu-section::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    }
+}

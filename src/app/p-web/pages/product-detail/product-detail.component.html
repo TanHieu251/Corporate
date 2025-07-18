@@ -1,0 +1,87 @@
+<div class="container mx-auto px-4 py-8">
+  <div *ngIf="product" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <!-- Product Images -->
+    <div class="space-y-4">
+      <div class="border rounded-lg overflow-hidden bg-gray-100">
+        <p-image [preview]="true" [src]="product.images[0]" [alt]="product.name" class="w-full h-auto object-fill " />
+      </div>
+      <div class="grid grid-cols-4 gap-2">
+        <div *ngFor="let i of product.images" class="border rounded-lg overflow-hidden cursor-pointer bg-gray-100">
+          <p-image [preview]="true" [src]="i" [alt]="'Product view ' + i" class="w-full h-24 object-fill " />
+        </div>
+      </div>
+      <!-- <p-carousel [value]="product.images" [numVisible]="4" [numScroll]="1" [circular]="true">
+        <ng-template let-image #item>
+          <p-image [preview]="true" [src]="image" [alt]="'Product view ' + image" class="w-full h-24 object-fill " />
+        </ng-template>
+      </p-carousel> -->
+    </div>
+
+    <!-- Product Details -->
+    <div class="space-y-6">
+      <div>
+        <p-tag>{{product.categoryName}}</p-tag>
+        <h1 class="text-3xl font-bold mt-1">{{ product.name }}</h1>
+      </div>
+      <p class="text-gray-700">{{ product.description }}</p>
+
+      <div class="space-y-4">
+        <div class="flex flex-col sm:flex-row gap-4">
+          <div class="text-3xl font-semibold">{{ product.price | number:'1.0-0' }} <span
+              class="text-xs text-gray-500">VNĐ</span>
+          </div>
+
+          <button pButton severity="info" routerLink="/contact">
+            <i class="pi pi-phone" pButtonIcon></i>
+            <span pButtonLabel>Liên hệ</span>
+          </button>
+
+        </div>
+      </div>
+
+      <div class="border-t pt-4">
+
+        <p-tabs value="0">
+          <p-tablist>
+            <p-tab value="0">Mô tả</p-tab>
+            <p-tab value="1">Thông số kỹ thuật</p-tab>
+            <p-tab value="2">Tính năng</p-tab>
+          </p-tablist>
+          <p-tabpanels>
+            <p-tabpanel value="0">
+              <p class="m-0">
+                {{ product.description }}
+              </p>
+            </p-tabpanel>
+
+            <p-tabpanel value="1">
+              <div *ngFor="let spec of product.specificationItems "
+                class="grid grid-cols-3 py-2 border-b last:border-b-0">
+                <span class="font-medium">{{spec.name}}</span>
+                <span class="col-span-2">{{ spec.description }}</span>
+              </div>
+            </p-tabpanel>
+
+            <p-tabpanel value="2">
+              <ul class="list-disc pl-5 space-y-2">
+                <li *ngFor="let feature of product.feature">{{ feature }}</li>
+              </ul>
+            </p-tabpanel>
+          </p-tabpanels>
+        </p-tabs>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-8">
+    <h2 class="text-2xl font-bold text-gray-600 mt-8 mb-4">Sản phẩm liên quan</h2>
+    <p-carousel [value]="relatedProducts" [numVisible]="4" [numScroll]="3" [circular]="false">
+      <ng-template let-product #item>
+        <app-product-item [product]="product" class="w-full"></app-product-item>
+      </ng-template>
+    </p-carousel>
+  </div>
+
+
+</div>

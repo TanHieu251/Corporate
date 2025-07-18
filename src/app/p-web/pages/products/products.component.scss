@@ -1,0 +1,33 @@
+::ng-deep {
+    app-products {
+        .list-filter {
+            .p-accordion {
+                .p-accordionpanel {
+                    border: none;
+                }
+
+                .p-accordionheader {}
+
+                .p-accordioncontent {
+                    border: none;
+
+                    p-listbox {
+                        .p-listbox {
+                            border: none;
+
+                            .p-listbox-header {
+                                display: none;
+                            }
+
+                            .p-listbox-list-container {
+                                .p-listbox-list {
+                                    .p-listbox-option-selected {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
