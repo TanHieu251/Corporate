@@ -30,7 +30,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   activeTab = 'description';
   relatedProducts: Product[] = [];
   Unsubscribe = new Subject<void>();
-  imagePreview: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -50,15 +49,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe((params) => {
       const productId = Number(params.get('id'));
       this.APIGetProductById(productId);
-      console.log(this.product);
     });
   }
   setActiveTab(tab: string): void {
     this.activeTab = tab;
-  }
-  addToCart(): void {
-    console.log(`Added ${this.quantity} of ${this.product?.name} to cart`);
-    // Implement actual cart functionality
   }
 
   //#region API
@@ -72,7 +66,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
             this.product = res.data;
             console.log(this.product);
             this.APIGetAllProduct();
-            // this.imagePreview = data.image;
           } else {
             // this.nofiService.error(
             //   `Đã xảy ra lỗi khi lấy danh sách chính sách: ${res.ErrorString}`
@@ -99,7 +92,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
                 product.id !== this.product?.id &&
                 product.category === this.product?.category
             );
-            // this.imagePreview = data.image;
           } else {
             // this.nofiService.error(
             //   `Đã xảy ra lỗi khi lấy danh sách chính sách: ${res.ErrorString}`

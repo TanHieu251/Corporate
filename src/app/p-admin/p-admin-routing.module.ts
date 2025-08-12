@@ -10,6 +10,10 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ServiceCategoryComponent } from './pages/service-category/service-category.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ProductCategoryComponent } from './pages/product-category/product-category.component';
+import { TableComponent } from './shared/components/table/table.component';
+import { ProjectComponent } from './pages/project/project.component';
+import { ProjectDetailComponent } from './shared/components/project-detail/project-detail.component';
+import { ProjectCategoryComponent } from './pages/project-category/project-category.component';
 
 const routes: Routes = [
   {
@@ -53,6 +57,18 @@ const routes: Routes = [
       {
         path: 'products/detail',
         component: ProductDetailComponent,
+      },
+      {
+        path: 'categoryProject',
+        component: ProjectCategoryComponent,
+      },
+      {
+        path: 'projects',
+        component: ProjectComponent,
+      },
+      {
+        path: 'project/detail',
+        component: ProjectDetailComponent,
       },
     ],
   },

@@ -27,9 +27,7 @@ export class LayoutAdminComponent {
 
   constructor(private router: Router) {}
 
-  toggleSidebar(): void {
-    this.isSidebarOpen = !this.isSidebarOpen;
-  }
+
 
   logout(): void {
     // this.authService.logout();

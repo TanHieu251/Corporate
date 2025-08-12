@@ -1,23 +1,25 @@
-<div class="sidebar-container">
+<div class="sidebar-container w-64 h-full px-3 py-4 overflow-y-auto">
     <!-- Logo Section -->
-    <div class="logo-section">
-        <div class="logo-wrapper">
-            <p-avatar image="assets/DNDLogo.png" alt="DND Logo" class="logo" [size]="'large'" shape="circle"
-                [style]="{'width': '80px', 'height': '80px'}" />
-            <div class="logo-text">
-                <h2>DND</h2>
-                <span class="">Admin Panel</span>
+    <!-- <div class="logo-section">
+            <div class="logo-wrapper">
+                <p-avatar image="assets/DNDLogo.png" alt="DND Logo" class="logo" [size]="'large'" shape="circle"
+                    [style]="{'width': '80px', 'height': '80px'}" />
+                <div class="logo-text">
+                    <h2>DND</h2>
+                    <span class="">Admin Panel</span>
+                </div>
             </div>
-        </div>
-    </div>
+        </div> -->
 
     <!-- Menu Section -->
     <div class="menu-section">
-        <p-panelMenu [model]="items" [style]="{'width':'100%'}" [multiple]="false"></p-panelMenu>
+        <p-panelMenu (changeActiveItem)="onMenuChange($event)" [model]="items" [style]="{'width':'100%'}" [multiple]="false">
+
+        </p-panelMenu>
     </div>
 
     <!-- User Profile Section -->
-    <div class="user-section flex flex-row items-center justify-center gap-2">
+    <!-- <div class="user-section flex flex-row items-center justify-center gap-2">
 
         <div class="user-details ">
             <h3>Admin User</h3>
@@ -25,5 +27,5 @@
         <div class="user-actions">
             <p-button icon="pi pi-sign-out" styleClass="p-button-text p-button-rounded"></p-button>
         </div>
-    </div>
-</div>  
+    </div> -->
+</div>

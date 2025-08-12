@@ -1,12 +1,14 @@
-<div class="container mx-auto px-4 py-8">
+<div class="container mx-auto px-4 py-8 main">
   <div *ngIf="product" class="grid grid-cols-1 md:grid-cols-2 gap-8">
     <!-- Product Images -->
     <div class="space-y-4">
       <div class="border rounded-lg overflow-hidden bg-gray-100">
-        <p-image [preview]="true" [src]="product.images[0]" [alt]="product.name" class="w-full h-auto object-fill " />
+        <p-image [preview]="true" [src]="product.images[0]" [alt]="product.name"
+          class="w-full thumbnail h-auto object-fill " />
       </div>
       <div class="grid grid-cols-4 gap-2">
-        <div *ngFor="let i of product.images" class="border rounded-lg overflow-hidden cursor-pointer bg-gray-100">
+        <div *ngFor="let i of product.images"
+          class="border images rounded-lg overflow-hidden cursor-pointer bg-gray-100">
           <p-image [preview]="true" [src]="i" [alt]="'Product view ' + i" class="w-full h-24 object-fill " />
         </div>
       </div>

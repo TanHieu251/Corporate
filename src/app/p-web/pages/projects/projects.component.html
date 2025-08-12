@@ -1,29 +1,23 @@
 <div>
     <!-- Hero Section -->
-    <section class="bg-gray-100">
-        <div class="container mx-auto py-16 md:py-24 px-4">
+
+
+    <section class="container mt-5 mx-auto   relative">
+        <div class="absolute rounded-3xl inset-0">
+            <img src="https://www.greencindia.co.in/wp-content/uploads/2020/08/industrial.jpg" alt="Hero Background"
+                class="rounded-3xl w-full h-full object-cover " />
+            <div class="absolute rounded-3xl inset-0 bg-black/30"></div>
+        </div>
+        <div class="container relative mx-auto py-16 md:py-24 px-4">
+
             <div class="mx-auto max-w-3xl text-center">
-                <h1 class="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
-                    Our <span class="text-orange-600">Projects</span>
+                <h1 class="mb-4 text-4xl text-white font-bold tracking-tight md:text-5xl">
+                    Dự án <span class="text-orange-600">của chúng tôi</span>
                 </h1>
-                <p class="mb-8 text-lg text-gray-600">
-                    Explore our portfolio of successful industrial electrical projects across Vietnam
+                <p class="mb-8 text-lg text-gray-200">
+                    Khám phá danh mục đầu tư của chúng tôi về các dự án điện công nghiệp thành công trên khắp Việt Nam
                 </p>
-                <div class="flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0 justify-center">
-                    <a routerLink="/contact"
-                        class="inline-flex items-center justify-center rounded-md bg-orange-600 px-6 py-3 text-base font-medium text-white shadow hover:bg-orange-700">
-                        Discuss Your Project
-                        <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
-                    </a>
-                    <a routerLink="/services"
-                        class="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-6 py-3 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50">
-                        Our Services
-                    </a>
-                </div>
+
             </div>
         </div>
     </section>
@@ -32,65 +26,19 @@
     <section class="py-16 md:py-24">
         <div class="container mx-auto px-4">
             <!-- Category Tabs -->
-            <div class="mb-8 overflow-x-auto">
-                <div class="inline-flex w-auto border-b border-gray-200">
+            <div class="mb-8 ">
+                <div class="inline-flex flex-wrap w-auto border-b border-gray-200">
                     <button *ngFor="let category of categories"
-                        [ngClass]="{'border-b-2 border-orange-600 text-orange-600': activeCategory === category.toLowerCase().replace(' ', '-'), 'text-gray-600': activeCategory !== category.toLowerCase().replace(' ', '-')}"
-                        class="py-2 px-4 font-medium" (click)="setActiveCategory(category)">
-                        {{ category }}
+                        [ngClass]="{'border-b-2 border-orange-600 text-orange-600': selectedCategory.id === category.id, 'text-gray-600': selectedCategory.id !== category.id}"
+                        class="py-2 px-4 font-medium" (click)="onCategoryChange(category)">
+                        {{ category.name }}
                     </button>
                 </div>
             </div>
 
             <!-- Projects Grid -->
             <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                <!-- <div *ngFor="let project of getFilteredProjects()"
-                    class="overflow-hidden rounded-lg border border-gray-200">
-                    <div class="relative h-64 w-full overflow-hidden">
-                        <img [src]="project.image" [alt]="project.title"
-                            class="object-cover transition-transform duration-300 hover:scale-105 h-full w-full" />
-                        <div *ngIf="project.featured"
-                            class="absolute top-4 right-4 bg-orange-600 text-white px-3 py-1 text-xs font-medium rounded-full">
-                            Featured
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="mb-2 text-sm text-orange-600">{{ project.category }}</div>
-                        <h3 class="mb-2 text-xl font-bold">{{ project.title }}</h3>
-                        <p class="mb-4 text-gray-600 line-clamp-2">{{ project.description }}</p>
-                        <div class="mb-4 space-y-2 text-sm text-gray-600">
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-4 w-4 text-orange-600" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                                <span>{{ project.location }}</span>
-                            </div>
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-4 w-4 text-orange-600" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                                <span>{{ project.date }}</span>
-                            </div>
-                        </div>
-                        <a [routerLink]="['/projects', project.id]"
-                            class="inline-flex items-center text-orange-600 hover:underline">
-                            View Project Details
-                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 5l7 7-7 7" />
-                            </svg>
-                        </a>
-                    </div>
-                </div> -->
-
-                <app-project-item *ngFor="let project of getFilteredProjects()" [project]="project"></app-project-item>
+                <app-project-item *ngFor="let project of filteredProjects" [project]="project"></app-project-item>
             </div>
         </div>
     </section>
@@ -121,36 +69,5 @@
     </section>
 
 
-    <!-- CTA Section -->
-    <section class="bg-gray-100 py-16 md:py-24">
-        <div class="container mx-auto px-4">
-            <div class="rounded-lg bg-orange-600 p-8 md:p-12">
-                <div class="mx-auto max-w-3xl text-center">
-                    <h2 class="mb-4 text-3xl font-bold tracking-tight text-white md:text-4xl">
-                        Ready to Start Your Project?
-                    </h2>
-                    <p class="mb-8 text-lg text-white/90">
-                        Contact us today to discuss your industrial electrical project needs and discover how we can
-                        help you
-                        achieve your goals.
-                    </p>
-                    <div class="flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0 justify-center">
-                        <a routerLink="/contact"
-                            class="inline-flex items-center justify-center rounded-md bg-white px-6 py-3 text-base font-medium text-orange-600 shadow hover:bg-gray-50">
-                            Contact Us
-                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </a>
-                        <a routerLink="/services"
-                            class="inline-flex items-center justify-center rounded-md border border-white bg-transparent px-6 py-3 text-base font-medium text-white hover:bg-white/10">
-                            Explore Our Services
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
 </div>

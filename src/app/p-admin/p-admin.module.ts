@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, IMAGE_CONFIG } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { PAdminRoutingModule } from './p-admin-routing.module';
@@ -28,7 +28,19 @@ import { ServiceCategoryModalComponent } from './shared/components/service-categ
 import { LoginComponent } from './pages/login/login.component';
 import { ProductCategoryComponent } from './pages/product-category/product-category.component';
 import { UploadImageComponent } from './shared/components/upload-image/upload-image.component';
-
+import { TableComponent } from './shared/components/table/table.component';
+import { TableModule } from 'primeng/table';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { SelectModule } from 'primeng/select';
+import { ProjectComponent } from './pages/project/project.component';
+import { ProjectDetailComponent } from './shared/components/project-detail/project-detail.component';
+import { FileUploadModule } from 'primeng/fileupload';
+import { ToastModule } from 'primeng/toast';
+import { BadgeModule } from 'primeng/badge';
+import { MessageService } from 'primeng/api';
+import { ProjectCategoryComponent } from './pages/project-category/project-category.component';
+import { DrawerModule } from 'primeng/drawer';
 @NgModule({
   declarations: [
     LayoutAdminComponent,
@@ -44,6 +56,10 @@ import { UploadImageComponent } from './shared/components/upload-image/upload-im
     LoginComponent,
     ProductCategoryComponent,
     UploadImageComponent,
+    TableComponent,
+    ProjectComponent,
+    ProjectDetailComponent,
+    ProjectCategoryComponent,
   ],
   imports: [
     CommonModule,
@@ -60,8 +76,26 @@ import { UploadImageComponent } from './shared/components/upload-image/upload-im
     MenuModule,
     PanelMenuModule,
     TooltipModule,
+    TableModule,
+    IconFieldModule,
+    InputIconModule,
+    SelectModule,
+    FileUploadModule,
+    ToastModule,
+    BadgeModule,
+    DrawerModule
   ],
-  providers: [HttpClient],
+  providers: [
+    HttpClient,
+    MessageService,
+    {
+      provide: IMAGE_CONFIG,
+      useValue: {
+        disableImageSizeWarning: true,
+        disableImageLazyLoadWarning: true,
+      },
+    },
+  ],
   exports: [],
 })
 export class PAdminModule {}

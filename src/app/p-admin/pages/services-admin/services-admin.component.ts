@@ -18,6 +18,15 @@ interface Service {
   styleUrl: './services-admin.component.scss',
 })
 export class ServicesAdminComponent implements OnInit, OnDestroy {
+table=[
+    { field: 'id', header: 'ID' },
+    { field: 'name', header: 'Tên' },
+    { field: 'description', header: 'Mô tả' },
+    { field: 'categoryName', header: 'Danh mục' },
+    { field: 'image', header: 'Hình ảnh' },
+
+]
+
   services: Service[] = [];
   filteredServices: Service[] = [];
   categories: any[] = [];
@@ -71,8 +80,8 @@ export class ServicesAdminComponent implements OnInit, OnDestroy {
     this.applyFilters();
   }
 
-  onCategoryFilterChange(event: Event): void {
-    this.categoryFilter = (event.target as HTMLSelectElement).value;
+  onCategoryFilterChange(event: any): void {
+    this.categoryFilter = event.value.id;
     this.applyFilters();
   }
 
@@ -87,8 +96,8 @@ export class ServicesAdminComponent implements OnInit, OnDestroy {
     this.router.navigate(['/admin/services/detail']);
   }
 
-  editService(id: number): void {
-    localStorage.setItem('serviceId', `${id}`);
+  editService(data: any): void {
+    localStorage.setItem('serviceId', `${data.id}`);
     localStorage.setItem('status', 'edit');
     this.router.navigate(['/admin/services/detail']);
   }

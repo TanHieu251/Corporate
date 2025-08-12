@@ -9,13 +9,11 @@
         <div class="flex flex-wrap gap-4 text-white">
           <div class="flex items-center gap-2">
             <i class="pi pi-map text-orange-500"></i>
-
             <span>{{ project.location }}</span>
           </div>
 
           <div class="flex items-center gap-2">
             <i class="pi pi-building text-orange-500"></i>
-
             <span>{{ project.client }}</span>
           </div>
 
@@ -29,24 +27,25 @@
     <!-- Project Details -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
       <div class="lg:col-span-2">
+
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
           <div *ngFor="let image of project.images| slice:1" class="rounded-lg overflow-hidden">
             <p-image [preview]="true" width="400" height="300" [src]="image" alt="Project gallery image"
               class=" object-fill" />
           </div>
         </div>
+
         <h2 class="text-2xl font-bold mb-4 uppercase">Tổng quan về dự án</h2>
         <p class="text-gray-700 mb-8">{{ project.description }}</p>
 
-        <h2 class="text-2xl font-bold mb-4 uppercase">Thách thức</h2>
-        <p class="text-gray-700 mb-8">{{ project.challenge }}</p>
+
 
         <h2 class="text-2xl font-bold mb-4 uppercase">Giải pháp của chúng tôi</h2>
         <p class="text-gray-700 mb-8">{{ project.solution }}</p>
 
         <h2 class="text-2xl font-bold mb-4 uppercase">Kết quả</h2>
         <ul class="list-disc pl-5 space-y-2 text-gray-700 mb-8">
-          <li *ngFor="let result of project.results">{{ result }}</li>
+          <li *ngFor="let item of project.result">{{ item }}</li>
         </ul>
       </div>
 
@@ -69,7 +68,8 @@
           </div>
 
           <div class="mt-6">
-            <p-button [routerLink]="'/contact'" icon="pi pi-phone" severity="contrast" label="Liên hệ với chúng tôi" class="w-full " styleClass="w-full " />
+            <p-button [routerLink]="'/contact'" icon="pi pi-phone" severity="contrast" label="Liên hệ với chúng tôi"
+              class="w-full " styleClass="w-full " />
           </div>
         </div>
       </div>
@@ -78,24 +78,6 @@
 
 
 
-    <!-- CTA Section -->
-    <!-- <div class="mt-16 bg-orange-600 rounded-lg p-8 text-center">
-      <div class="max-w-3xl mx-auto">
-        <h2 class="text-3xl font-bold text-white mb-4">Ready to Start Your Project?</h2>
-        <p class="text-white/90 text-lg mb-8">
-          Contact us today to discuss your industrial electrical project needs and discover how we can help you achieve
-          your goals.
-        </p>
-        <div class="flex flex-col sm:flex-row justify-center gap-4">
-          <a href="/contact" class="bg-white text-orange-600 px-6 py-3 rounded-md font-medium hover:bg-gray-100">
-            Contact Us
-          </a>
-          <a href="/services"
-            class="bg-transparent text-white border border-white px-6 py-3 rounded-md font-medium hover:bg-white/10">
-            Explore Our Services
-          </a>
-        </div>
-      </div>
-    </div> -->
+
   </div>
 </div>

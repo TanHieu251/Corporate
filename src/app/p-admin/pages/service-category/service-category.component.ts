@@ -13,6 +13,12 @@ import { ServiceCategoryModalComponent } from '../../shared/components/service-c
   standalone: false,
 })
 export class ServiceCategoryComponent implements OnInit, OnDestroy {
+table=[
+    { field: 'id', header: 'ID' },
+    { field: 'name', header: 'Tên' },
+ 
+]
+
   services: any[] = [];
   filteredServices: any[] = [];
   loading = false;
@@ -80,6 +86,7 @@ export class ServiceCategoryComponent implements OnInit, OnDestroy {
   }
 
   openEditModal(category: any): void {
+    console.log(category);
     this.isEditMode = true;
     this.selectedCategory = category;
     this.isModalOpen = true;
@@ -99,9 +106,9 @@ export class ServiceCategoryComponent implements OnInit, OnDestroy {
     }
   }
 
-  onDelete(id: number) {
+  onDelete(data: any) {
     if (confirm('Bạn có chắc chắn muốn xóa danh mục này không?')) {
-      this.APIDeleteCategory(id);
+      this.APIDeleteCategory(data.id);
     }
   }
   //#endregion

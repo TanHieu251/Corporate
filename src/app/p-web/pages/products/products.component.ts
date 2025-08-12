@@ -106,7 +106,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
       this.selectedCategory.length > 0 &&
       this.selectedCategory[0].id !== -1
     ) {
-      console.log(this.selectedCategory);
       result = result.filter((product) =>
         this.selectedCategory.some(
           (category) => product.category === category.id

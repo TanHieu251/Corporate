@@ -30,9 +30,23 @@ export const url = {
   ImageDelete: 'Image/delete',
 
   //Product
-  AddProduct:'Products/AddProduct',
+  AddProduct: 'Products/AddProduct',
   GetAllProduct: 'Products/GetAllProduct',
   GetProductById: 'Products/GetProductById',
   UpdateProduct: 'Products/UpdateProduct',
   DeleteProduct: 'Products/DeleteProduct',
+
+  // Project Category
+  AddCategoryProject: 'CategoryProject/AddCategoryProject',
+  GetAllCategoryProject: 'CategoryProject/GetAllCategoryProject',
+  GetCategoryProject: 'CategoryProject/GetCategoryProject',
+  UpdateCategoryProject: 'CategoryProject/UpdateCategoryProject',
+  DeleteCategoryProject: 'CategoryProject/DeleteCategoryProject',
+
+  //Project
+  AddProject: 'Project/AddProject',
+  GetAllProject: 'Project/GetAllProject',
+  GetProjectById: 'Project/GetProjectById',
+  UpdateProject: 'Project/UpdateProject',
+  DeleteProject: 'Project/DeleteProject',
 };

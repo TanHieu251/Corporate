@@ -1,0 +1,63 @@
+<p-table #dt [value]="data" [scrollable]="true" scrollHeight="540px" [rows]="10" [columns]="cols" [paginator]="true"
+    [tableStyle]="{ 'min-width': '75rem','table-layout': 'fixed'  }" [rowHover]="true">
+    <ng-template #header let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{ col.header }}
+            </th>
+            <th style="max-width: 250px;">
+
+            </th>
+        </tr>
+    </ng-template>
+
+    <ng-template #body let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns">
+                @if (col.field === 'images' ) {
+                <img loading="lazy" [src]="
+                        rowData[col.field] && rowData[col.field].length > 0
+                            ? rowData[col.field][0]
+                            : 'https://www.eclosio.ong/wp-content/uploads/2018/08/default.png'
+                    " [alt]="rowData.name || 'No image'" style="width: 64px; height: 64px; object-fit: contain;"
+                    class="rounded" />
+                }
+                @else if (col.field === 'image' ) {
+                <img loading="lazy" [src]="
+                        rowData[col.field] && rowData[col.field].length > 0
+                            ? rowData[col.field]
+                            : 'https://www.eclosio.ong/wp-content/uploads/2018/08/default.png'
+                    " [alt]="rowData.name || 'No image'" style="width: 64px; height: 64px; object-fit: contain;"
+                    class="rounded" />
+                }
+                @else {
+                <span class="text-sm font-medium text-gray-900">
+                    {{ rowData[col.field] }}
+                </span>
+                }
+            </td>
+            <td class="max-w-64">
+                <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+                    (click)="editProduct(rowData)" />
+                <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                    (click)="deleteProduct(rowData)" />
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+        <tr>
+            <td colspan="8">
+                <div class="p-8 text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mx-auto mb-4" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+
+</p-table>

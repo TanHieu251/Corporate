@@ -1,61 +1,45 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProductService } from '../../shared/services/product.service';
 import { Subject, takeUntil } from 'rxjs';
 import { Until_check } from '../../../p-lib/until/until';
+import { ProjectService } from '../../shared/services/project.service';
 import { CloudinaryService } from '../../shared/services/cloudinary.service';
-interface Product {
-  id: number;
-  name: string;
-  category: string;
-  categoryName: string;
-  price: number;
-  rating: number;
-  images: string[];
-  description: string;
-  features: string[];
-  specifications: { [key: string]: string };
-  stock: number;
-  isActive: boolean;
-}
+
 @Component({
-  selector: 'app-product-admin',
+  selector: 'app-project',
   standalone: false,
-  templateUrl: './product-admin.component.html',
-  styleUrl: './product-admin.component.scss',
+  templateUrl: './project.component.html',
+  styleUrl: './project.component.scss',
 })
-export class ProductAdminComponent implements OnInit, OnDestroy {
-  products: Product[] = [];
-  categoryProduct: any[] = [];
-  filteredProducts: Product[] = [];
+export class ProjectComponent implements OnInit, OnDestroy {
+  project: any[] = [];
+  categoryProject: any[] = [];
+  filteredProjects: any[] = [];
   loading = false;
   searchTerm = '';
-  categoryFilter = 'all';
-  statusFilter = 'all';
-  priceFilter = 'all';
+  categoryFilter = { id: -1, name: 'Tất cả' };
   Unsubscribe = new Subject<void>();
 
   table = [
     { field: 'id', header: 'ID' },
-    { field: 'name', header: 'Tên Sản phẩm' },
+    { field: 'name', header: 'Tên dự án' },
+    { field: 'category', header: 'Danh mục' },
     { field: 'description', header: 'Mô tả' },
-    { field: 'categoryName', header: 'Danh mục' },
-    { field: 'price', header: 'Giá' },
+    { field: 'client', header: 'Khách hàng' },
     { field: 'images', header: 'Hình ảnh' },
   ];
 
   //#region LIFECYCLE
 
   constructor(
-    // private productService: ProductService,
     private router: Router,
-    private apiService: ProductService,
+    private apiService: ProjectService,
     private apiCloudinary: CloudinaryService
   ) {}
 
   ngOnInit(): void {
-    this.APIGetAllProductCategory();
-    this.APIGetAllProduct();
+    this.APIGetAllProjectCategory();
+    this.APIGetAllProject();
   }
 
   ngOnDestroy(): void {
@@ -66,15 +50,15 @@ export class ProductAdminComponent implements OnInit, OnDestroy {
   //#endregion
 
   //#region  OPEN DETAIL
-  onAddProduct(): void {
+  onAddProject(): void {
     localStorage.setItem('status', 'add');
-    this.router.navigate(['/admin/products/detail']);
+    this.router.navigate(['/admin/project/detail']);
   }
   //#endregion
 
   //#region FILTERS
   applyFilters(): void {
-    let result = this.products;
+    let result = this.project;
 
     // Apply search filter
     if (this.searchTerm) {
@@ -87,36 +71,13 @@ export class ProductAdminComponent implements OnInit, OnDestroy {
     }
 
     // Apply category filter
-    if (this.categoryFilter !== 'all') {
+    if (this.categoryFilter.id !== -1) {
       result = result.filter(
-        (product) => product.category === this.categoryFilter
+        (product) => product.category === this.categoryFilter.id
       );
     }
 
-    // Apply status filter
-    if (this.statusFilter !== 'all') {
-      const isActive = this.statusFilter === 'active';
-      result = result.filter((product) => product.isActive === isActive);
-    }
-
-    // Apply price filter
-    if (this.priceFilter !== 'all') {
-      if (this.priceFilter === 'under-500') {
-        result = result.filter((product) => product.price < 500);
-      } else if (this.priceFilter === '500-1000') {
-        result = result.filter(
-          (product) => product.price >= 500 && product.price <= 1000
-        );
-      } else if (this.priceFilter === '1000-2000') {
-        result = result.filter(
-          (product) => product.price > 1000 && product.price <= 2000
-        );
-      } else if (this.priceFilter === 'over-2000') {
-        result = result.filter((product) => product.price > 2000);
-      }
-    }
-
-    this.filteredProducts = result;
+    this.filteredProjects = result;
   }
 
   onSearch(event: Event): void {
@@ -124,47 +85,35 @@ export class ProductAdminComponent implements OnInit, OnDestroy {
     this.applyFilters();
   }
 
-  onCategoryFilterChange(event: Event): void {
-    this.categoryFilter = (event.target as HTMLSelectElement).value;
-    this.applyFilters();
-  }
-
-  onStatusFilterChange(event: Event): void {
-    this.statusFilter = (event.target as HTMLSelectElement).value;
-    this.applyFilters();
-  }
-
-  onPriceFilterChange(event: Event): void {
-    this.priceFilter = (event.target as HTMLSelectElement).value;
+  onCategoryFilterChange(event: any): void {
+    this.categoryFilter = event.value;
     this.applyFilters();
   }
 
   resetFilters(): void {
     this.searchTerm = '';
-    this.categoryFilter = 'all';
-    this.statusFilter = 'all';
-    this.priceFilter = 'all';
+    this.categoryFilter = { id: -1, name: 'Tất cả' };
     this.applyFilters();
   }
-
   //#endregion
 
   //#region HANDLE
-  onEditProduct(data: any): void {
-    localStorage.setItem('productId', `${data.id}`);
+
+  onEditProject(value: any): void {
+    localStorage.setItem('projectId', `${value.id}`);
     localStorage.setItem('status', 'edit');
-    this.router.navigate(['/admin/products/detail']);
+    this.router.navigate(['/admin/project/detail']);
   }
 
-  deleteProduct(data: any): void {
-    if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')) {
+  deleteProject(data: any): void {
+    if (confirm('Bạn có chắc chắn muốn xóa dự án này không?')) {
       if (Until_check.hasListValue(data.images)) {
         data.images.forEach((image: string) => {
           const publicId = this.formatFileNameFromUrl(image);
           this.APIDeleteImage(publicId);
         });
       }
-      this.APIDeleteProduct(data.id);
+      this.APIDeleteProject(data.id);
     }
   }
 
@@ -178,20 +127,19 @@ export class ProductAdminComponent implements OnInit, OnDestroy {
 
     return '';
   }
-
   //#endregion
 
   //#region API
 
-  APIGetAllProductCategory(): void {
+  APIGetAllProjectCategory(): void {
     this.apiService
       .GetAllCategory()
       .pipe(takeUntil(this.Unsubscribe))
       .subscribe({
         next: (res) => {
           if (Until_check.hasValue(res)) {
-            this.categoryProduct = res.data;
-            this.categoryProduct.unshift({ id: 'all', name: 'Tất cả' });
+            this.categoryProject = res.data;
+            this.categoryProject.unshift({ id: -1, name: 'Tất cả' });
           }
         },
         error: (error) => {
@@ -201,42 +149,41 @@ export class ProductAdminComponent implements OnInit, OnDestroy {
       });
   }
 
-  APIGetAllProduct(): void {
+  APIGetAllProject(): void {
     this.loading = true;
     this.apiService
-      .GetAllProduct()
+      .GetAllProject()
       .pipe(takeUntil(this.Unsubscribe))
       .subscribe({
         next: (res) => {
           if (Until_check.hasValue(res)) {
-            this.products = res.data;
+            this.project = res.data;
             this.applyFilters();
             this.loading = false;
           }
         },
         error: (error) => {
-          console.error('Error loading products:', error);
+          console.error('Error loading projects:', error);
           this.loading = false;
         },
       });
   }
 
-  APIDeleteProduct(id: number): void {
+  APIDeleteProject(id: number): void {
     this.apiService
-      .DeleteProduct(id)
+      .DeleteProject(id)
       .pipe(takeUntil(this.Unsubscribe))
       .subscribe({
         next: (res) => {
           if (Until_check.hasValue(res)) {
-            this.APIGetAllProduct();
+            this.APIGetAllProject();
           }
         },
         error: (error) => {
-          console.error('Error deleting product:', error);
+          console.error('Error deleting project:', error);
         },
       });
   }
-
   APIDeleteImage(id: string) {
     return this.apiCloudinary
       .deleteImage(id)
@@ -258,5 +205,6 @@ export class ProductAdminComponent implements OnInit, OnDestroy {
         }
       );
   }
+
   //#endregion
 }

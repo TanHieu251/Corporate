@@ -1,0 +1,40 @@
+::ng-deep {
+    app-table {
+        .p-datatable {
+            .p-datatable-thead {
+                tr {
+                    th {
+                        &:first-child {
+                            width: 150px;
+                        }
+
+                        &:last-child {
+                            width: 150px;
+                        }
+
+
+                    }
+                }
+            }
+
+            .p-datatable-tbody {
+                tr {
+                    td {
+
+
+
+                        span {
+                            display: -webkit-box;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 2;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: normal;
+                            word-break: break-word;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

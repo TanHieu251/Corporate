@@ -1,0 +1,45 @@
+<div>
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Quản lý dự án</h1>
+        <button icon="pi pi-plus" pButton severity="warn" (click)="onAddProject()"
+            class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
+
+            Thêm dự án mới
+        </button>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-6 mb-6">
+        <div class="flex items-center justify-between">
+            <div class="flex  gap-4 items-center">
+                <div>
+                    <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Tìm kiếm</label>
+                    <input type="text" id="search" [value]="searchTerm" (input)="onSearch($event)"
+                        placeholder="Tìm theo tên hoặc mô tả"
+                        class="w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
+                </div>
+
+                <div>
+                    <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Danh mục</label>
+                    <p-select [options]="categoryProject" [(ngModel)]="categoryFilter" optionLabel="name"
+                        placeholder="Select a City" class="w-full md:w-56"
+                        (onChange)="onCategoryFilterChange($event)" />
+
+                </div>
+            </div>
+
+            <div class="flex items-end">
+                <button icon="pi pi-sync" pButton severity="contrast" (click)="resetFilters()"
+                    class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
+                    Đặt lại bộ lọc
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+
+
+        <app-table [cols]="table" [data]="filteredProjects" (editProductEvent)="onEditProject($event)"
+            (deleteProductEvent)="deleteProject($event)"></app-table>
+    </div>
+</div>

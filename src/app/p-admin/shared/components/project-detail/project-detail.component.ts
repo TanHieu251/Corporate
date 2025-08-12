@@ -1,26 +1,26 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ProductService } from '../../services/product.service';
+import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { Until_check } from '../../../../p-lib/until/until';
+import { ProjectService } from '../../services/project.service';
 import { CloudinaryService } from '../../services/cloudinary.service';
+import { Until_check } from '../../../../p-lib/until/until';
 
 @Component({
-  selector: 'app-product-detail',
+  selector: 'app-project-detail',
   standalone: false,
-  templateUrl: './product-detail.component.html',
-  styleUrl: './product-detail.component.scss',
+  templateUrl: './project-detail.component.html',
+  styleUrl: './project-detail.component.scss',
 })
-export class ProductDetailComponent implements OnInit, OnDestroy {
-  productForm: FormGroup;
+export class ProjectDetailComponent implements OnInit, OnDestroy {
+  projectForm: FormGroup;
   loading = false;
   submitting = false;
   error = '';
-  productId: number | null = null;
+  projectId: number | null = null;
   isEditMode = false;
   Unsubscribe = new Subject<void>();
-  categoryProduct: any[] = [];
+  categoryProject: any[] = [];
   statusMode: string = '';
   serviceId: number = 0;
 
@@ -30,18 +30,19 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private APIService: ProductService,
+    private apiService: ProjectService,
     private cloudinaryService: CloudinaryService
   ) {
-    this.productForm = this.formBuilder.group({
+    this.projectForm = this.formBuilder.group({
       id: [0],
       name: ['', Validators.required],
       category: [2, Validators.required],
-      price: [0, [Validators.required, Validators.min(0)]],
       images: this.formBuilder.array([]),
       description: ['', Validators.required],
-      feature: this.formBuilder.array([]),
-      specificationItems: this.formBuilder.array([]),
+      client: ['', Validators.required],
+      location: ['', Validators.required],
+      solution: ['', Validators.required],
+      result: this.formBuilder.array([]),
     });
   }
 
@@ -57,17 +58,15 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   }
   //#endregion
 
-  //#region HANDLE
-
   onCheckInitDetail() {
     this.statusMode = localStorage.getItem('status') || 'add';
     this.checkStatusMode(this.statusMode);
     if (this.isEditMode) {
-      const idString = localStorage.getItem('productId');
+      const idString = localStorage.getItem('projectId');
       const id = idString ? parseInt(idString, 10) : -1;
       if (Until_check.hasValue(id)) {
         this.serviceId = id;
-        this.APIGetProductById(this.serviceId);
+        this.APIGetProjectById(this.serviceId);
       }
     }
   }
@@ -80,16 +79,12 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  get feature(): FormArray {
-    return this.productForm.get('feature') as FormArray;
-  }
-
-  get specificationItems(): FormArray {
-    return this.productForm.get('specificationItems') as FormArray;
+  get result(): FormArray {
+    return this.projectForm.get('result') as FormArray;
   }
 
   get Image(): FormArray {
-    return this.productForm.get('images') as FormArray;
+    return this.projectForm.get('images') as FormArray;
   }
 
   get imageValues(): string[] {
@@ -107,45 +102,24 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  addFeature(): void {
-    this.feature.push(this.formBuilder.control('', Validators.required));
+  onAddResult(): void {
+    this.result.push(this.formBuilder.control('', Validators.required));
   }
 
-  onFeatureInit(product: any) {
-    while (this.feature.length) {
-      this.feature.removeAt(0);
+  onResultInit(product: any) {
+    while (this.result.length) {
+      this.result.removeAt(0);
     }
-    product.feature.forEach((f: any) => {
-      this.feature.push(this.formBuilder.control(f, Validators.required));
+    product.result.forEach((f: any) => {
+      this.result.push(this.formBuilder.control(f, Validators.required));
     });
   }
 
-  removeFeature(index: number): void {
-    this.feature.removeAt(index);
-  }
-
-  addSpecification(): void {
-    this.specificationItems.push(
-      this.formBuilder.group({
-        name: ['', Validators.required],
-        description: ['', Validators.required],
-      })
-    );
+  onRemoveResult(index: number): void {
+    this.result.removeAt(index);
   }
 
   onSpecificationInit(product: any) {
-    while (this.specificationItems.length) {
-      this.specificationItems.removeAt(0);
-    }
-    product.specificationItems.forEach((item: any) => {
-      this.specificationItems.push(
-        this.formBuilder.group({
-          name: [item.name, Validators.required],
-          description: [item.description, Validators.required],
-        })
-      );
-    });
-
     if (product.images) {
       product.images.forEach((imageUrl: string) => {
         this.Image.push(this.formBuilder.control(imageUrl));
@@ -153,31 +127,26 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  removeSpecification(index: number): void {
-    this.specificationItems.removeAt(index);
-  }
-
   onSubmit(): void {
-    const data = this.productForm.value;
-
+    const data = this.projectForm.value;
     this.isEditMode
-      ? this.APIUpdateProduct(data.id, data)
-      : this.APICreateProduct(data);
+      ? this.APIUpdateProject(data.id, data)
+      : this.APICreateProject(data);
 
     this.loading = true;
   }
-  //#endregion
 
   //#region API
 
   APIGetAllCategory(): void {
     this.loading = true;
-    this.APIService.GetAllCategory()
+    this.apiService
+      .GetAllCategory()
       .pipe(takeUntil(this.Unsubscribe))
       .subscribe({
         next: (res) => {
           if (Until_check.hasValue(res)) {
-            this.categoryProduct = res.data;
+            this.categoryProject = res.data;
             this.loading = false;
           }
         },
@@ -188,16 +157,19 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       });
   }
 
-  APIGetProductById(id: number) {
-    return this.APIService.GetProductById(id)
+  APIGetProjectById(id: number) {
+    console.log(id);
+
+    return this.apiService
+      .GetProjectById(id)
       .pipe(takeUntil(this.Unsubscribe))
       .subscribe(
         (res) => {
           if (Until_check.hasValue(res)) {
             const data = res.data;
-            this.onFeatureInit(data);
+            this.onResultInit(data);
             this.onSpecificationInit(data);
-            this.productForm.patchValue(data);
+            this.projectForm.patchValue(data);
             console.log(data);
             // this.imagePreview = data.image;
           } else {
@@ -214,40 +186,42 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       );
   }
 
-  APIUpdateProduct(id: number, data: any) {
+  APIUpdateProject(id: number, data: any) {
     this.loading = true;
-    this.APIService.UpdateProduct(id, data)
+    this.apiService
+      .UpdateProject(id, data)
       .pipe(takeUntil(this.Unsubscribe))
       .subscribe({
         next: (res) => {
-          console.log('Update Product Response:', res);
+          console.log('Update Project Response:', res);
           if (Until_check.hasValue(res)) {
             this.loading = false;
-            this.router.navigate(['/admin/products']); // Chuyển trang sau khi thành công
+            this.router.navigate(['/admin/projects']); // Chuyển trang sau khi thành công
           }
         },
         error: (error: Error) => {
-          console.error('Error updating product:', error);
+          console.error('Error updating project:', error);
           this.loading = false;
         },
       });
   }
 
-  APICreateProduct(data: any) {
+  APICreateProject(data: any) {
     this.loading = true;
-    console.log('Create Product Data:', data);
-    this.APIService.CreateProduct(data)
+    console.log('Create Project Data:', data);
+    this.apiService
+      .CreateProject(data)
       .pipe(takeUntil(this.Unsubscribe))
       .subscribe({
         next: (res) => {
-          console.log('Create Product Response:', res);
+          console.log('Create Project Response:', res);
           if (Until_check.hasValue(res)) {
             this.loading = false;
-            this.router.navigate(['/admin/products']); // Chuyển trang sau khi thành công
+            this.router.navigate(['/admin/projects']); // Chuyển trang sau khi thành công
           }
         },
         error: (error: Error) => {
-          console.error('Error creating product:', error);
+          console.error('Error creating project:', error);
           this.loading = false;
         },
       });

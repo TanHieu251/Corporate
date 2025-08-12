@@ -1,17 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { ProductService } from '../../shared/services/product.service';
+import { ProjectService } from '../../shared/services/project.service';
+import { Router } from '@angular/router';
 import { Until_check } from '../../../p-lib/until/until';
 
 @Component({
-  selector: 'app-product-category',
+  selector: 'app-project-category',
   standalone: false,
-  templateUrl: './product-category.component.html',
-  styleUrl: './product-category.component.scss',
+  templateUrl: './project-category.component.html',
+  styleUrl: './project-category.component.scss',
 })
-export class ProductCategoryComponent implements OnInit, OnDestroy {
-  categoryProduct: any[] = [];
+export class ProjectCategoryComponent implements OnInit, OnDestroy {
+  categoryProjects: any[] = [];
   filteredServices: any[] = [];
   loading = false;
   searchTerm = '';
@@ -29,7 +29,7 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
   isEditMode = false;
   selectedCategory: any = null;
 
-  constructor(private router: Router, private APIService: ProductService) {}
+  constructor(private router: Router, private apiService: ProjectService) {}
 
   //#region LIFECYCLE
   ngOnInit(): void {
@@ -46,7 +46,7 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
   //#region HANLDE SEARCH
 
   applyFilters(): void {
-    let result = this.categoryProduct;
+    let result = this.categoryProjects;
 
     if (this.searchTerm) {
       const searchTermLower = this.searchTerm.toLowerCase();
@@ -110,12 +110,13 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
 
   APIGetAllCategory(): void {
     this.loading = true;
-    this.APIService.GetAllCategory()
+    this.apiService
+      .GetAllCategory()
       .pipe(takeUntil(this.Unsubscribe))
       .subscribe({
         next: (res) => {
           if (Until_check.hasValue(res)) {
-            this.categoryProduct = res.data;
+            this.categoryProjects = res.data;
             this.applyFilters();
             this.loading = false;
           }
@@ -129,7 +130,8 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
 
   APICreateCategory(name: string): void {
     this.loading = true;
-    this.APIService.CreateCategory(name)
+    this.apiService
+      .CreateCategory(name)
       .pipe(takeUntil(this.Unsubscribe))
       .subscribe({
         next: (res) => {
@@ -146,7 +148,8 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
 
   APIUpdateCategory(id: number, name: string): void {
     this.loading = true;
-    this.APIService.UpdateCategory(id, name)
+    this.apiService
+      .UpdateCategory(id, name)
       .pipe(takeUntil(this.Unsubscribe))
       .subscribe({
         next: (res) => {
@@ -162,7 +165,8 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
   }
 
   APIDeleteCategory(id: number): void {
-    this.APIService.DeleteCategory(id)
+    this.apiService
+      .DeleteCategory(id)
       .pipe(takeUntil(this.Unsubscribe))
       .subscribe({
         next: (res) => {

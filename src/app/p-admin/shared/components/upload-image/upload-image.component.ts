@@ -7,10 +7,14 @@ import {
   SimpleChanges,
   OnDestroy,
   OnInit,
+  ChangeDetectorRef,
+  NgZone,
 } from '@angular/core';
 import { CloudinaryService } from '../../services/cloudinary.service';
 import { Subject, takeUntil } from 'rxjs';
 import { Until_check } from '../../../../p-lib/until/until';
+import { PrimeNG } from 'primeng/config';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-upload-image',
@@ -21,22 +25,28 @@ import { Until_check } from '../../../../p-lib/until/until';
 export class UploadImageComponent implements OnInit, OnChanges, OnDestroy {
   @Input({ required: true }) isMulti: boolean = false;
   uploadingImage: boolean = false;
-  imagePreviews: string[] = [];
   selectedFiles: File[] = [];
   Unsubscribe = new Subject<void>();
   @Output() imageUploaded = new EventEmitter<string[]>();
   @Input({ required: true }) ListImage: string[] = [];
+  imagePreviews: string[] = [];
+  files: [] = [];
+  fileUpload: string[] = [];
 
   //#region LIFECYCLE
 
-  constructor(private apiService: CloudinaryService) {}
+  constructor(
+    private apiService: CloudinaryService,
+    private messageService: MessageService,
+    private cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     // Ensure ListImage is always an array
     // if (!this.ListImage) {
     //   this.ListImage = [];
     // }
-    // this.onCheckListImageInit();
+    this.onCheckListImageInit();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -57,8 +67,55 @@ export class UploadImageComponent implements OnInit, OnChanges, OnDestroy {
 
   onCheckListImageInit() {
     if (Until_check.hasListValue(this.ListImage)) {
-      this.imagePreviews = this.ListImage;
+      this.fileUpload = this.ListImage;
     }
+  }
+
+  //#region HANDLE
+  choose(event: any, callback: any) {
+    callback();
+  }
+
+  onRemoveTemplatingFile(
+    event: any,
+    file: any,
+    removeFileCallback: any,
+    index: any
+  ) {
+    removeFileCallback(event, index);
+  }
+
+  onClearTemplatingUpload(clear: any) {
+    clear();
+  }
+
+  onTemplatedUpload() {
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Success',
+      detail: 'File Uploaded',
+      life: 3000,
+    });
+  }
+
+  onSelectedFiles(event: any) {
+    this.files = event.currentFiles;
+  }
+
+  uploadEvent(callback: any) {
+    callback();
+    for (const file of this.files) {
+      if (Until_check.hasValue(file)) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'Corporate');
+        formData.append('cloud_name', 'ecpr');
+        this.APIUploadImage(formData);
+      }
+    }
+    this.files = [];
+    this.uploadingImage = true;
+    this.cd.detectChanges();
   }
 
   formatFileNameFromUrl(url: string): string {
@@ -72,76 +129,12 @@ export class UploadImageComponent implements OnInit, OnChanges, OnDestroy {
     return '';
   }
 
-  removeImage(): void {
-    this.ListImage.forEach((i) => {
-      const publicId = this.formatFileNameFromUrl(i);
-      this.APIDeleteImage(publicId);
-    });
+  onRemoveImageSingle(url: string): void {
+    const publicId = this.formatFileNameFromUrl(url);
+    this.APIDeleteImage(publicId);
     this.selectedFiles = [];
-    this.imagePreviews = [];
   }
-
-  onFileSelected(event: any) {
-    const files = event.target.files[0];
-    console.log(this.isMulti);
-
-    this.isMulti
-      ? this.onMutilFileSelected(files)
-      : this.onSingleFileSelected(files);
-
-    if (Until_check.hasValue(files)) {
-      const formData = new FormData();
-      formData.append('file', files);
-      formData.append('upload_preset', 'Corporate');
-      formData.append('cloud_name', 'ecpr');
-      this.APIUploadImage(formData);
-    }
-  }
-
-  onMutilFileSelected(file: any) {
-    console.log('mutil');
-    if (Until_check.hasValue(file)) {
-      this.selectedFiles.push(file);
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.imagePreviews.push(e.target.result);
-      };
-      reader.readAsDataURL(file);
-      // for (let i = 0; i < file.length; i++) {
-      //   const f = file[i];
-      //   this.selectedFiles.push(f);
-      //   // Tạo preview
-      //   const reader = new FileReader();
-      //   reader.onload = (e: any) => {
-      //     this.imagePreviews.push(e.target.result);
-      //   };
-      //   reader.readAsDataURL(f);
-      // }
-    }
-  }
-
-  onSingleFileSelected(file: any) {
-    console.log('sing');
-
-    this.removeImage();
-
-    if (Until_check.hasValue(file)) {
-      this.selectedFiles = [file];
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.imagePreviews = [e.target.result];
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-  handleImagePreview(file: File) {
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.imagePreviews.push(e.target.result);
-    };
-    reader.readAsDataURL(file);
-  }
+  //#endregion
 
   //#region API
 

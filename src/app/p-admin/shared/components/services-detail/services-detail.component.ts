@@ -18,7 +18,7 @@ import { CloudinaryService } from '../../services/cloudinary.service';
   templateUrl: './services-detail.component.html',
   styleUrl: './services-detail.component.scss',
 })
-export class ServicesDetailComponent implements OnInit, OnChanges, OnDestroy {
+export class ServicesDetailComponent implements OnInit, OnDestroy {
   serviceForm: FormGroup;
   loading = false;
   submitting = false;
@@ -29,22 +29,18 @@ export class ServicesDetailComponent implements OnInit, OnChanges, OnDestroy {
   service: any = [];
   serviceCategory: any[] = [];
   statusMode: string = '';
-  selectedFile: File | null = null;
-  imagePreview: string | null = null;
-  uploadingImage = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private serviceService: ServicesService,
-    private router: Router,
-    private cloudinaryService: CloudinaryService
+    private router: Router
   ) {
     this.serviceForm = this.formBuilder.group({
       id: ['', Validators.required],
       name: ['', Validators.required],
       description: ['', Validators.required],
       category: [0, Validators.required],
-      image: ['', Validators.required],
+      image: this.formBuilder.array([]),
       feature: this.formBuilder.array([]),
     });
   }
@@ -71,8 +67,6 @@ export class ServicesDetailComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {}
-
   ngOnDestroy(): void {
     this.Unsubscribe.next();
     this.Unsubscribe.complete();
@@ -82,32 +76,23 @@ export class ServicesDetailComponent implements OnInit, OnChanges, OnDestroy {
     return this.serviceForm.get('feature') as FormArray;
   }
 
-  // Add this method after the constructor
-  onFileSelected(event: any): void {
-    const file = event.target.files[0];
-    if (file) {
-      // Validate file size (max 5MB)
-      // if (file.size > 5 * 1024 * 1024) {
-      //   this.error = 'Kích thước file không được vượt quá 5MB';
-      //   return;
-      // }
-
-      this.selectedFile = file;
-      this.error = '';
-
-      // Create preview
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.imagePreview = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
+  get Image(): FormArray {
+    return this.serviceForm.get('image') as FormArray;
   }
 
-  removeImage(): void {
-    this.selectedFile = null;
-    this.imagePreview = null;
-    this.serviceForm.patchValue({ image: '' });
+  get imageValues(): string[] {
+    return this.Image.controls.map((control) => control.value);
+  }
+
+  onUploadImage(e: any) {
+    // Clear existing images
+    while (this.Image.length) {
+      this.Image.removeAt(0);
+    }
+    // Add new images
+    e.forEach((imageUrl: string) => {
+      this.Image.push(this.formBuilder.control(imageUrl));
+    });
   }
 
   addFeature(): void {
@@ -125,25 +110,17 @@ export class ServicesDetailComponent implements OnInit, OnChanges, OnDestroy {
     service.feature.forEach((f: any) => {
       this.feature.push(this.formBuilder.control(f, Validators.required));
     });
+
+    this.Image.push(
+      this.formBuilder.control(service.image, Validators.required)
+    );
   }
 
   onSubmit(): void {
     const data = this.serviceForm.value;
-    data.category = Number(data.category);
-    this.loading = true;
-
-    if (this.selectedFile) {
-      const formData = new FormData();
-      formData.append('file', this.selectedFile);
-      formData.append('upload_preset', 'Corporate');
-      formData.append('cloud_name', 'ecpr');
-      this.APIUploadImage(formData);
+    if (Until_check.hasListValue(data.image)) {
+      data.image = this.imageValues[0];
     }
-  }
-
-  onHandleSubmitAPI() {
-    const data = this.serviceForm.value;
-
     this.isEditMode
       ? this.APIUpdateService(data.id, data)
       : this.APICreateService(data);
@@ -182,8 +159,6 @@ export class ServicesDetailComponent implements OnInit, OnChanges, OnDestroy {
             const data = res.data;
             this.onFeatureInit(data);
             this.serviceForm.patchValue(data);
-            console.log(data);
-            this.imagePreview = data.image;
           } else {
             // this.nofiService.error(
             //   `Đã xảy ra lỗi khi lấy danh sách chính sách: ${res.ErrorString}`
@@ -209,7 +184,7 @@ export class ServicesDetailComponent implements OnInit, OnChanges, OnDestroy {
           console.log('Update Service Response:', res);
           if (Until_check.hasValue(res)) {
             this.loading = false;
-            this.router.navigate(['/admin/service']); // Chuyển trang sau khi thành công
+            this.router.navigate(['/admin/service']);
           }
         },
         error: (error: Error) => {
@@ -230,7 +205,7 @@ export class ServicesDetailComponent implements OnInit, OnChanges, OnDestroy {
           console.log('Create Service Response:', res);
           if (Until_check.hasValue(res)) {
             this.loading = false;
-            this.router.navigate(['/admin/service']); // Chuyển trang sau khi thành công
+            this.router.navigate(['/admin/service']);
           }
         },
         error: (error: Error) => {
@@ -239,24 +214,5 @@ export class ServicesDetailComponent implements OnInit, OnChanges, OnDestroy {
         },
       });
   }
-
-  APIUploadImage(data: FormData) {
-    this.uploadingImage = true;
-    this.cloudinaryService
-      .uploadImage(data)
-      .pipe(takeUntil(this.Unsubscribe))
-      .subscribe({
-        next: (res) => {
-          console.log(res);
-          this.serviceForm.value.image = (res as any).url;
-          this.uploadingImage = false;
-          this.onHandleSubmitAPI();
-        },
-        error: (error) => {
-          console.error('Error uploading image:', error);
-          this.uploadingImage = false;
-        },
-      });
-  }
-  //#endregion
 }
+//#endregion

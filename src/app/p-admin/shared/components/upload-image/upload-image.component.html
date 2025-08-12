@@ -1,8 +1,9 @@
 <!-- Current Image Previews -->
-<div *ngIf="imagePreviews.length > 0" class="mb-4">
+<!-- <div *ngIf="imagePreviews.length > 0" class="mb-4">
     <div class="flex flex-wrap gap-2">
         <div *ngFor="let preview of imagePreviews">
-            <p-image [preview]="true"  [src]="preview" alt="Preview" width="320"  class="w-80 h-80 object-cover rounded-lg border border-gray-300 mb-2"/>
+            <p-image [preview]="true" [src]="preview" alt="Preview" width="320"
+                class="w-80 h-80 object-cover rounded-lg border border-gray-300 mb-2" />
         </div>
     </div>
     <button type="button" (click)="removeImage()" class="mt-2 text-sm text-red-600 hover:text-red-800">
@@ -13,10 +14,10 @@
         </svg>
         {{isMulti ? "Xoá tất cả hình ảnh" : "Xoá hình ảnh"}}
     </button>
-</div>
+</div> -->
 
 <!-- File Upload -->
-<div
+<!-- <div
     class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:border-orange-400 transition-colors">
     <div class="space-y-1 text-center">
         <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
@@ -31,14 +32,13 @@
                 <input id="file-upload" name="file-upload" type="file" class="sr-only" accept="image/*"
                     (change)="onFileSelected($event)">
             </label>
-            <!-- <p class="pl-1">hoặc kéo thả vào đây</p> -->
         </div>
         <p class="text-xs text-gray-500">PNG, JPG, GIF tối đa 5MB</p>
     </div>
-</div>
+</div> -->
 
 <!-- Upload Progress -->
-<div *ngIf="uploadingImage" class="mt-2">
+<!-- <div *ngIf="uploadingImage" class="mt-2">
     <div class="flex items-center">
         <svg class="animate-spin h-4 w-4 text-orange-600 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none"
             viewBox="0 0 24 24">
@@ -49,4 +49,71 @@
         </svg>
         <span class="text-sm text-gray-600">Đang upload hình ảnh...</span>
     </div>
+</div> -->
+<div class="my-4">
+    <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Hình ảnh</label>
+
+    <div class="flex flex-wrap gap-4 mt-4">
+        @for (item of fileUpload; track $index) {
+        <div class=" px-12 flex flex-col  items-center gap-2">
+            <div>
+                <p-image loading="lazy" [preview]="true" [src]="item" class="w-80 h-80" width="320" height="320" />
+            </div>
+            <p-badge value="Completed" severity="success" />
+            <p-button icon="pi pi-times" (onClick)="onRemoveImageSingle(item)" [outlined]="true" [rounded]="true"
+                severity="danger" />
+        </div>
+        }
+    </div>
+</div>
+
+
+<div>
+    <p-toast />
+    <p-fileupload [customUpload]="true" [files]="files" name="myfile[]"
+        url="https://www.primefaces.org/cdn/api/upload.php" [multiple]="isMulti" accept="image/*" maxFileSize="1000000"
+        (onUpload)="onTemplatedUpload()" (onSelect)="onSelectedFiles($event)">
+        <ng-template #header let-files let-chooseCallback="chooseCallback" let-clearCallback="clearCallback"
+            let-uploadCallback="uploadCallback">
+            <div class="flex flex-wrap justify-between iems-center flex-1 gap-4">
+                <div class="flex gap-2">
+                    <p-button (onClick)="choose($event, chooseCallback)" icon="pi pi-images" [rounded]="true"
+                        [outlined]="true" />
+                    <p-button (onClick)="uploadEvent(uploadCallback)" icon="pi pi-cloud-upload" [rounded]="true"
+                        [outlined]="true" severity="success" [disabled]="!files || files.length === 0" />
+                    <p-button (onClick)="clearCallback()" icon="pi pi-times" [rounded]="true" [outlined]="true"
+                        severity="danger" [disabled]="!files || files.length === 0" />
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #content let-files let-uploadedFiles="uploadedFiles" let-removeFileCallback="removeFileCallback"
+            let-removeUploadedFileCallback="removeUploadedFileCallback">
+            <div class="flex flex-col gap-8 pt-4">
+                <div *ngIf="files?.length > 0">
+                    <div class="flex flex-wrap gap-4">
+                        <div *ngFor="let file of files; let i = index"
+                            class="p-8 rounded-border flex flex-col border border-surface items-center gap-2">
+                            <div>
+                                <p-image [preview]="true" role="presentation" [src]="file.objectURL" class="w-80 h-80"
+                                    width="320" height="320" />
+                            </div>
+
+                            <p-badge value="Pending" severity="warn" />
+                            <p-button icon="pi pi-times"
+                                (click)="onRemoveTemplatingFile($event, file, removeFileCallback, i)" [outlined]="true"
+                                [rounded]="true" severity="danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #file></ng-template>
+
+        <ng-template #empty>
+            <div class="flex items-center justify-center flex-col">
+                <i class="pi pi-cloud-upload !border-2 !rounded-full !p-8 !text-4xl !text-muted-color"></i>
+                <p class="mt-6 mb-0">Drag and drop files to here to upload.</p>
+            </div>
+        </ng-template>
+    </p-fileupload>
 </div>
